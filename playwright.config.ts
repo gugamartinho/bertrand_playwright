@@ -5,7 +5,7 @@ export default defineConfig({
   fullyParallel: true,
   reporter: [['html', { outputFolder: 'reports' }]],
   use: {
-    headless: false,
+    headless: true,
     screenshot: 'only-on-failure',
     trace: 'retain-on-failure',
     baseURL: 'https://www.bertrand.pt/',
