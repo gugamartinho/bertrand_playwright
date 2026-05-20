@@ -11,13 +11,6 @@ export class HomePage {
     this.searchButton = page.locator('button[type="submit"][aria-label="pesquisar"]');
   }
 
-  async acceptCookiesIfVisible() {
-    const acceptButton = this.page.getByRole('button', { name: 'Aceitar' });
-    if (await acceptButton.isVisible()) {
-      await acceptButton.click();
-    }
-  }
-
   async searchFor(term: string) {
     await this.searchInput.fill(term);
     await this.searchButton.click();
