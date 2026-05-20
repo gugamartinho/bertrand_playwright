@@ -10,11 +10,11 @@ export class BookPage {
     
   constructor(page: Page) {
     this.page = page;
-    this.authorLocator = page.locator('h3#productPageRightSectionTop-authors-h3');
+    this.authorLocator = page.locator('[id*="authors-h3"]');
     this.productDetails = page.locator('#product_detail .data');
     this.otherBooksByAuthor = page.locator('.product-portlet');
-    this.languageFlag = page.locator('#productPageRightSectionTop-languageFlag');
-    this.addCartButton = page.locator('button#productPageRightSectionTop-actions-addCart-btn');
+    this.languageFlag = page.locator('[id*=languageFlag]');
+    this.addCartButton = page.locator('button[id*=addCart-btn]');
   }
 
   async checkAuthorIs(expectedAuthor: string) {
