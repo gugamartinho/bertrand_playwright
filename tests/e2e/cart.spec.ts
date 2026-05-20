@@ -29,7 +29,7 @@ test('Scenario 4 - Add 1984 to cart and validate cart has one correct book', asy
     await cartPage.checkCartItemTitle('1984');
 });
 
-test('Scenario 4 - Remove 1984 from cart and validate cart is empty', async ({ page }) => {
+test('Scenario 5 - Remove 1984 from cart and validate cart is empty', async ({ page }) => {
     await homePage.searchFor('1984');
     await searchPage.openFirstResultWithTitle('1984');
     await bookPage.addToCart();

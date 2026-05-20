@@ -19,7 +19,7 @@ test.beforeEach(async ({ page }) => {
     await acceptCookiesIfVisible(page);
 });
 
-test('Scenario 1 - Search "1984" Book and check details', async ({ page }) => {
+test('Scenario 1 - Search 1984 Book and check details', async ({ page }) => {
     await homePage.searchFor('1984');
     await searchPage.openFirstResultWithTitle('1984');
     await bookPage.checkAuthorIs('George Orwell');
@@ -29,14 +29,14 @@ test('Scenario 1 - Search "1984" Book and check details', async ({ page }) => {
 
 });
 
-test('Scenario 2 - Search "1984" Book and check "A Quinta dos Animais" book is authored by the same author.', async ({ page }) => {
+test('Scenario 2 - Search 1984 Book and check A Quinta dos Animais book is authored by the same author.', async ({ page }) => {
     await homePage.searchFor('1984');
     await searchPage.openFirstResultWithTitle('1984');
     await bookPage.checkAuthorIs('George Orwell');
     await bookPage.checkOtherBookBySameAuthorExists('Quinta dos Animais');
 });
 
-test('Scenario 3 - Search "Do Not Disturb" Book and check details', async ({ page }) => {
+test('Scenario 3 - Search Do Not Disturb Book and check details', async ({ page }) => {
     await homePage.searchFor('Do Not Disturb');
     await searchPage.openFirstResultWithTitle('Do Not Disturb');
     await bookPage.checkAuthorIs('Freida McFadden');
