@@ -49,7 +49,6 @@ playwright-automation-portfolio/
 git clone https://github.com/gugamartinho/bertrand_playwright.git
 cd bertrand_playwright
 npm ci
-npm install -D @playwright/test
 npx playwright install
 ```
 
