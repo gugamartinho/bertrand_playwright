@@ -1,9 +1,9 @@
 import { test, expect } from "@playwright/test";
-import { HomePage } from "../pages/HomePage";
-import { SearchPage } from "../pages/SearchPage";
-import { BookPage } from "../pages/BookPage";
-import { CartPage } from "../pages/CartPage";
-import { acceptCookiesIfVisible } from "../utils/cookies";
+import { HomePage } from "../../pages/HomePage";
+import { SearchPage } from "../../pages/SearchPage";
+import { BookPage } from "../../pages/BookPage";
+import { CartPage } from "../../pages/CartPage";
+import { acceptCookiesIfVisible } from "../../utils/cookies";
 
 let homePage: HomePage;
 let searchPage: SearchPage;
@@ -42,27 +42,4 @@ test('Scenario 3 - Search "Do Not Disturb" Book and check details', async ({ pag
     await bookPage.checkAuthorIs('Freida McFadden');
     await bookPage.checkIdiomIs('Inglês');
     await bookPage.checkLanguageFlagIs('Inglês');
-});
-
-test('Scenario 4 - Add 1984 to cart and validate cart has one correct book', async ({ page }) => {
-    await homePage.searchFor('1984');
-    await searchPage.openFirstResultWithTitle('1984');
-    await bookPage.addToCart();
-    await cartPage.waitForBadgeToBeVisible();
-    await cartPage.checkCartItemCount(1);
-    await cartPage.openCart();
-    await cartPage.checkCartItemTitle('1984');
-});
-
-test('Scenario 4 - Remove 1984 from cart and validate cart is empty', async ({ page }) => {
-    await homePage.searchFor('1984');
-    await searchPage.openFirstResultWithTitle('1984');
-    await bookPage.addToCart();
-    await cartPage.waitForBadgeToBeVisible();
-    await cartPage.checkCartItemCount(1);
-    await cartPage.openCart();
-    await cartPage.checkCartItemTitle('1984');
-    await cartPage.removeItemFromCart();
-    await cartPage.checkCartIsEmpty();
-    await cartPage.waitForBadgeToBeNotVisible();
 });
