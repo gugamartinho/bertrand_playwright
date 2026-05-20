@@ -1,7 +1,8 @@
-import { defineConfig} from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './tests',
+  fullyParallel: true,
   reporter: [['html', { outputFolder: 'reports' }]],
   use: {
     headless: false,
@@ -9,4 +10,10 @@ export default defineConfig({
     trace: 'retain-on-failure',
     baseURL: 'https://www.bertrand.pt/',
   },
+  projects: [
+    {
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'] },
+    }
+  ],
 });
