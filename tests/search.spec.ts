@@ -1,41 +1,68 @@
 import { test, expect } from "@playwright/test";
 import { HomePage } from "../pages/HomePage";
+import { SearchPage } from "../pages/SearchPage";
 import { BookPage } from "../pages/BookPage";
-import { BookDetails } from "../pages/BookDetails";
+import { CartPage } from "../pages/CartPage";
+import { acceptCookiesIfVisible } from "../utils/cookies";
 
 let homePage: HomePage;
+let searchPage: SearchPage;
 let bookPage: BookPage;
-let bookDetails: BookDetails;
+let cartPage: CartPage;
 
 test.beforeEach(async ({ page }) => {
     await page.goto('/');
     homePage = new HomePage(page);
+    searchPage = new SearchPage(page);
     bookPage = new BookPage(page);
-    bookDetails = new BookDetails(page);
-    await homePage.acceptCookiesIfVisible();  // Ensure cookies are accepted before each test
+    cartPage = new CartPage(page);
+    await acceptCookiesIfVisible(page);
 });
 
 test('Scenario 1 - Search "1984" Book and check details', async ({ page }) => {
     await homePage.searchFor('1984');
-    await bookPage.openFirstResultWithTitle('1984');
-    await bookDetails.checkAuthorIs('George Orwell');
-    await bookDetails.checkISBNIs('9789722071550');
-    await bookDetails.checkPageCountIs('344');
-    await bookDetails.checkDimensionsAre('156 x 238 x 22 mm');
+    await searchPage.openFirstResultWithTitle('1984');
+    await bookPage.checkAuthorIs('George Orwell');
+    await bookPage.checkISBNIs('9789722071550');
+    await bookPage.checkPageCountIs('344');
+    await bookPage.checkDimensionsAre('156 x 238 x 22 mm');
 
 });
 
 test('Scenario 2 - Search "1984" Book and check "A Quinta dos Animais" book is authored by the same author.', async ({ page }) => {
     await homePage.searchFor('1984');
-    await bookPage.openFirstResultWithTitle('1984');
-    await bookDetails.checkAuthorIs('George Orwell');
-    await bookDetails.checkOtherBookBySameAuthorExists('Quinta dos Animais');
+    await searchPage.openFirstResultWithTitle('1984');
+    await bookPage.checkAuthorIs('George Orwell');
+    await bookPage.checkOtherBookBySameAuthorExists('Quinta dos Animais');
 });
 
 test('Scenario 3 - Search "Do Not Disturb" Book and check details', async ({ page }) => {
     await homePage.searchFor('Do Not Disturb');
-    await bookPage.openFirstResultWithTitle('Do Not Disturb');
-    await bookDetails.checkAuthorIs('Freida McFadden');
-    await bookDetails.checkIdiomIs('Inglês');
-    await bookDetails.checkLanguageFlagIs('Inglês');
+    await searchPage.openFirstResultWithTitle('Do Not Disturb');
+    await bookPage.checkAuthorIs('Freida McFadden');
+    await bookPage.checkIdiomIs('Inglês');
+    await bookPage.checkLanguageFlagIs('Inglês');
+});
+
+test('Scenario 4 - Add 1984 to cart and validate cart has one correct book', async ({ page }) => {
+    await homePage.searchFor('1984');
+    await searchPage.openFirstResultWithTitle('1984');
+    await bookPage.addToCart();
+    await cartPage.waitForBadgeToBeVisible();
+    await cartPage.checkCartItemCount(1);
+    await cartPage.openCart();
+    await cartPage.checkCartItemTitle('1984');
+});
+
+test('Scenario 4 - Remove 1984 from cart and validate cart is empty', async ({ page }) => {
+    await homePage.searchFor('1984');
+    await searchPage.openFirstResultWithTitle('1984');
+    await bookPage.addToCart();
+    await cartPage.waitForBadgeToBeVisible();
+    await cartPage.checkCartItemCount(1);
+    await cartPage.openCart();
+    await cartPage.checkCartItemTitle('1984');
+    await cartPage.removeItemFromCart();
+    await cartPage.checkCartIsEmpty();
+    await cartPage.waitForBadgeToBeNotVisible();
 });
