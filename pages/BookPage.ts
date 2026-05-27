@@ -47,6 +47,8 @@ export class BookPage {
   }
 
   async addToCart() {
-    await this.addCartButton.click();
+    await expect(this.addCartButton).toBeVisible({ timeout: 10000 });
+    await expect(this.addCartButton).toBeEnabled({ timeout: 10000 });
+    await this.addCartButton.click({ timeout: 10000 });
   }
 }
